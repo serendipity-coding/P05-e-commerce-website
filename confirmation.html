@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/80181411b5.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="\css\style.css">
+    <title>Confirmation</title>
+</head>
+<body>   
+    <!-- header -->
+    <header class="header header-pages container-fluid text-white text-center" > 
+        <div class="header-menu d-sm-flex flex-row justify-content-between">
+            <a class="logo logo-pages" href="index.html"><img  src="\images\logo.png"></a>
+            <ul>
+                <li><a href="index.html">Home</a></li>                            
+            </ul>  
+        </div>             
+    </header>    
+    <!-- Main -->
+    <main>
+        
+        <div class="container confirmation text-center">
+            <h3>Dear <strong><span id="clientName"></span></strong>, Your order has been confirmed</h3>
+            <p>Thank you for your trust</p>
+            <img src="/images/validation(1).png" class="validation-img" alt="icon de validation">        
+            <div class=" detailsCommande shadow-lg p-3 mb-5 bg-white rounded">
+                <h3>Order details</h3>
+                <p class=" font-weight-bold" >ID number :</p>
+                <p>
+                    <span id="confirmationId"></span>
+                </p>
+                <p class=" font-weight-bold" id="total-price">Total price :</p>
+                <p>
+                    <span id="confirmationPrice"></span>€
+                </p>
+                               
+            </div>     
+            <a href="index.html">
+                <button type="button" class="btn btn-info homePageBtn">HomePage</button>
+            </a>            
+             
+        </div>
+   
+    </main>
+    <!--footer-->
+    <footer class="footer-main">
+        <div class="container">
+            <div class="row">
+                <div class="footer-social">
+                    <h5 class="footer-social-title"> Contactez-nous</h5>
+                    <div class="footer-social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- <script src="api.js"></script> -->
+    <script defer src="\scripts\confirmation.js"></script>
+</body>
+</html>

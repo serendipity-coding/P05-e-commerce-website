@@ -17,4 +17,5 @@ if(myOrder === null){
 
 document.querySelector('.homePageBtn').addEventListener('click',()=>{
     localStorage.clear();
+    
 });

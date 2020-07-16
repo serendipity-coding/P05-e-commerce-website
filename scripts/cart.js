@@ -106,7 +106,7 @@ function validatePurchase() {
     let  contact = {
         lastName: lastName.value,
         firstName: firstName.value,      
-        address: streetNumber.value + ''+ streetName.value,
+        address: streetNumber.value + ' ' + streetName.value,
         city: city.value,
         email: email.value
     };  

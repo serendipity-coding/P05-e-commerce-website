@@ -70,7 +70,7 @@ function validateInputForm(){                                     //form must be
         streetNumber.value.length > 0  &&
         city.value.length > 0
     ){
-        document.querySelector('.link').setAttribute('href', '#');
+        document.querySelector('.link').setAttribute('href', 'confirmation.html');
         console.log('form function passed');
     }else{
         console.log('didnt pass');

@@ -1,4 +1,12 @@
 let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
+let form = document.querySelector('.form');
+let inputs = document.querySelectorAll('input'); 
+let firstName = document.getElementById("firstName");
+let lastName = document.getElementById("lastName");
+let email = document.getElementById("email");
+let city = document.getElementById("city");
+let streetNumber = document.getElementById("streetNumber");
+let streetName = document.getElementById("streetName");
 
 displayCartItems = (products) => {                            //add products to the cart from localStorage
     if (products){  
@@ -42,23 +50,18 @@ totalCartPrice = (cart) =>{
     document.querySelector('.totalPrice').innerHTML = `<h3>Total price = ${totalPrice} $</h3>`
     sessionStorage.setItem(`totalPrice`, JSON.stringify(totalPrice));
   }
-  totalCartPrice(shoppingCart);
+totalCartPrice(shoppingCart);
 //------------------------Form validation------------------//
-let form = document.querySelector('.form');
-let inputs = document.querySelectorAll('input'); 
-let firstName = document.getElementById("firstName");
-let lastName = document.getElementById("lastName");
-let email = document.getElementById("email");
-let city = document.getElementById("city");
-let streetNumber = document.getElementById("streetNumber");
-let streetName = document.getElementById("streetName");
+
 //display error message
 inputs.forEach((input)=> { 
     input.addEventListener('focus', (e) => { 
-        e.target.nextElementSibling.classList.add('showErrorMessage');                   
+        e.target.nextElementSibling.classList.add('showErrorMessage');
+                          
     });
     input.addEventListener('keyup', (e) => { 
-        e.target.nextElementSibling.classList.remove('showErrorMessage');                   
+        e.target.nextElementSibling.classList.remove('showErrorMessage');   
+        validateInputForm();                 
     })
 });
 
@@ -70,8 +73,9 @@ function validateInputForm(){                                     //form must be
         streetNumber.value.length > 0  &&
         city.value.length > 0
     ){
-        document.querySelector('.link').setAttribute('href', 'confirmation.html');
-        console.log('form function passed');
+        console.log('test input');
+        document.getElementById('purchaseBtn').disabled = false;
+       
     }else{
         console.log('didnt pass');
     }
@@ -122,7 +126,7 @@ function validatePurchase() {
  
 document.querySelector('.purchaseButton').onclick = (()=>{   //form must be validated to confirm the purchase 
     console.log('button clicked');
-    validateInputForm();
+    
     validatePurchase(); 
 });
 
@@ -150,17 +154,22 @@ document.getElementById('deleteStorage').onclick= (() => {
 // //   });
 
 //----------------- add and remove one item--------------//
-updateQuantity= (cart) =>{
-    for (let i=0 ; i < cart.length ; i++){  
+updateQuantity= () =>{
+    let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
+    for (let i=0 ; i < shoppingCart.length ; i++){  
       increment= () =>{
         document.querySelector(`.add${i}`).addEventListener('click', () =>{    
-            document.getElementById(`input-${i}`).value = parseInt(document.getElementById(`input-${i}`).value) + 1; 
+            document.getElementById(`input-${i}`).value = parseInt(document.getElementById(`input-${i}`).value) + 1;    
+            shoppingCart[i].quantity = document.getElementById(`input-${i}`).value;
+            localStorage.setItem(`shoppingCart`, JSON.stringify(shoppingCart));
             totalCartPrice(shoppingCart);
         });   
       }
       decrement= () =>{
         document.querySelector(`.substract${i}`).addEventListener('click', () =>{
             document.getElementById(`input-${i}`).value= parseInt(document.getElementById(`input-${i}`).value) - 1;
+            shoppingCart[i].quantity = document.getElementById(`input-${i}`).value;
+            localStorage.setItem(`shoppingCart`, JSON.stringify(shoppingCart));
             totalCartPrice(shoppingCart);
             
         });
@@ -169,7 +178,7 @@ updateQuantity= (cart) =>{
       decrement();     
     }
   }
-  updateQuantity(shoppingCart);
+  updateQuantity();
 
 
   deleteOneItem= (cart) =>{

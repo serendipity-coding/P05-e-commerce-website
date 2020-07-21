@@ -16,6 +16,7 @@ if(myOrder === null){
 // document.getElementById("clientName").innerText = myOrder.name;
 
 document.querySelector('.homePageBtn').addEventListener('click',()=>{
+    sessionStorage.clear();
     localStorage.clear();
     
 });

@@ -1,4 +1,4 @@
-let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
+// let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
 let form = document.querySelector('.form');
 let firstNameInput = document.getElementById("firstName");
 let lastNameInput = document.getElementById("lastName");

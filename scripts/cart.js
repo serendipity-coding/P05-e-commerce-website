@@ -1,26 +1,25 @@
 let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
 let form = document.querySelector('.form');
-let inputs = document.querySelectorAll('input'); 
-let firstName = document.getElementById("firstName");
-let lastName = document.getElementById("lastName");
-let email = document.getElementById("email");
-let city = document.getElementById("city");
-let streetNumber = document.getElementById("streetNumber");
-let streetName = document.getElementById("streetName");
+let firstNameInput = document.getElementById("firstName");
+let lastNameInput = document.getElementById("lastName");
+let emailInput = document.getElementById("email");
+let cityInput = document.getElementById("city");
+let addressInput = document.getElementById("address");
 
-displayCartItems = (products) => {                            //add products to the cart from localStorage
-    if (products){  
+displayCartItems = () => {                            //add products to the cart from localStorage
+    let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
+    if (shoppingCart){  
         document.getElementById('emptyCart').innerHTML = ''; 
-        for (let i=0 ; i < products.length ; i++){    
+        for (let i=0 ; i < shoppingCart.length ; i++){    
             document.querySelector('.table').innerHTML += `    
             <tbody>
                 <tr>
-                    <td>${products[i].name}</td>
-                    <td>${products[i].price}</td>  
+                    <td>${shoppingCart[i].name}</td>
+                    <td>${shoppingCart[i].price}</td>  
                     <td>
                         <div class= "cartQuantityInput">
                             <button class=" quantityBtn substract${i}">-</button>
-                            <input id ="input-${i}" class  type="number" value=${products[i].quantity}>
+                            <input id ="input-${i}" class  type="number" value=${shoppingCart[i].quantity}>
                             <button class="quantityBtn  add${i}">+</button>
                             <i class="fas fa-trash-alt fa-2x trash${i}"></i>
                         </div>
@@ -31,88 +30,92 @@ displayCartItems = (products) => {                            //add products to 
         ` ;                
         }    
         document.querySelector('.orderForm').classList.remove('d-none');   
-        // console.log(product);    
     }
     else{
-        console.log('no products in the shopping cart');
         document.querySelector('.fullCart').innerHTML='';
     }
 }
-displayCartItems(shoppingCart);
+displayCartItems();
 
 
-totalCartPrice = (cart) =>{
+totalCartPrice = () =>{
+    let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
     let totalPrice = 0;
-    for (let i=0 ; i < cart.length ; i++){
-      totalPrice= totalPrice + (((cart[i].price))*(document.getElementById(`input-${i}`).value)); 
+    for (let i=0 ; i < shoppingCart.length ; i++){
+      totalPrice= totalPrice + (((shoppingCart[i].price))*(document.getElementById(`input-${i}`).value)); 
     }
-    console.log('total price',totalPrice);
     document.querySelector('.totalPrice').innerHTML = `<h3>Total price = ${totalPrice} $</h3>`
     sessionStorage.setItem(`totalPrice`, JSON.stringify(totalPrice));
-  }
-totalCartPrice(shoppingCart);
-//------------------------Form validation------------------//
+}
+totalCartPrice();
 
-//display error message
+//----------------------------------------------------Form validation-----------------------------------------------------//
+let inputs = document.querySelectorAll('input');        
+function validateFormInput( field , regex){             
+    if(regex.test(field.value)){      
+        field.nextElementSibling.classList.remove('active');       
+    }else{
+        field.nextElementSibling.classList.add('active');        
+    }
+}
+
 inputs.forEach((input)=> { 
-    input.addEventListener('focus', (e) => { 
-        e.target.nextElementSibling.classList.add('showErrorMessage');
-                          
-    });
-    input.addEventListener('keyup', (e) => { 
-        e.target.nextElementSibling.classList.remove('showErrorMessage');   
-        validateInputForm();                 
+    input.addEventListener('keyup', (e) => {                                          //keyword event for each input
+        let patterns = {
+            firstName : /^[a-zA-Z]{4,12}$/,
+            lastName : /^[a-zA-Z]{5,12}$/,
+            email:/^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})$/,
+            address : /^[0-9]{1,5}( [-a-zA-Zàâäéèêëïîôöùûüç]+)+$/,
+            city : /[a-z-'éè A-Z]{2,30}$/           
+        };
+        validateFormInput(e.target, patterns[e.target.attributes.name.value] );      
+        validateForm()          
     })
 });
-
-function validateInputForm(){                                     //form must be correctly filled to pass to the 
-    if( firstName.value.length > 0 &&                              //confirmation page
-        lastName.value.length >0 &&
-        email.value.length > 0 &&
-        streetName.value.length > 0 &&
-        streetNumber.value.length > 0  &&
-        city.value.length > 0
+function validateForm(){                                                                 //form must be correctly filled to pass to the 
+    if( document.getElementById('firstName').value.length > 0 &&                         //confirmation page
+        document.getElementById('lastName').value.length >0 &&
+        document.getElementById('email').value.length > 0 &&
+        document.getElementById('address').value.length > 0 &&
+        document.getElementById('city').value.length > 0       
     ){
-        console.log('test input');
-        document.getElementById('purchaseBtn').disabled = false;
-       
-    }else{
-        console.log('didnt pass');
+        // validatePurchase(); 
+        document.getElementById('purchaseBtn').disabled = false;       
     }
-};
+}
 
-//----validate order and send request----////
+
+
+
+//------------------------------------validate order and send request----------------------------------------------------------////
 function postOrderRequest(order) {   
     let achat = JSON.stringify(order);
-      console.log('achat',achat);
       let request = new XMLHttpRequest();
       request.onreadystatechange = function () {
         if (this.readyState == XMLHttpRequest.DONE) {
           let confirmation = JSON.parse(this.responseText);
-          console.log('confrmation',confirmation);
           sessionStorage.setItem('order', JSON.stringify(confirmation));
-          localStorage.clear();
         };
       };
       request.open("post", "http://localhost:3000/api/cameras/order");
       request.setRequestHeader("Content-Type", "application/json");
-      request.send(achat);
-    
-    }
+      request.send(achat);  
+}
     
 function validatePurchase() {
-    const products = []                                    // final request with the order
+    let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
+    const products = []   
+                                                                  // final request with the order
     for (let i = 0; i < shoppingCart.length; i++) {             //contains the info of all th products selected
         products.push(shoppingCart[i].id)
     }
-    console.log('products',products);
-    
+   
     let  contact = {
-        lastName: lastName.value,
-        firstName: firstName.value,      
-        address: streetNumber.value + ' ' + streetName.value,
-        city: city.value,
-        email: email.value
+        firstName: firstNameInput.value, 
+        lastName: lastNameInput.value,            
+        address: addressInput.value,
+        city: cityInput.value,
+        email: emailInput.value
     };  
     console.log('contact',contact);
 
@@ -124,9 +127,7 @@ function validatePurchase() {
     postOrderRequest(objt);
     }; 
  
-document.querySelector('.purchaseButton').onclick = (()=>{   //form must be validated to confirm the purchase 
-    console.log('button clicked');
-    
+document.querySelector('.purchaseButton').onclick = (()=>{   //form must be validated to confirm the purchase   
     validatePurchase(); 
 });
 
@@ -135,61 +136,41 @@ document.getElementById('deleteStorage').onclick= (() => {
     document.location.reload(true);
 })
 
-//----------------------------//
-// const totalNumberOfItemsInCart= () =>{
-//     let cart = JSON.parse(localStorage.getItem('shoppingCart'));
-//     let totalItemsNumber = 0;
-//     if (cart === null){
-//         cart= [];    
-//     }
-//     for (let i=0 ; i < cart.length ; i++){
-//         totalItemsNumber = totalItemsNumber + (cart[i].quantity); 
-//         }
-//         console.log('artciles in cart=',totalItemsNumber);
-//     document.querySelector('.numberArticleCart').innerHTML = totalItemsNumber;
-// }
-
-// // window.addEventListener("DOMContentLoaded", () => {
-// //     totalNumberOfItemsInCart();
-// //   });
 
 //----------------- add and remove one item--------------//
 updateQuantity= () =>{
     let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
     for (let i=0 ; i < shoppingCart.length ; i++){  
-      increment= () =>{
+    //--increment--//
         document.querySelector(`.add${i}`).addEventListener('click', () =>{    
             document.getElementById(`input-${i}`).value = parseInt(document.getElementById(`input-${i}`).value) + 1;    
             shoppingCart[i].quantity = document.getElementById(`input-${i}`).value;
             localStorage.setItem(`shoppingCart`, JSON.stringify(shoppingCart));
             totalCartPrice(shoppingCart);
         });   
-      }
-      decrement= () =>{
+     //--deccrement--//
         document.querySelector(`.substract${i}`).addEventListener('click', () =>{
             document.getElementById(`input-${i}`).value= parseInt(document.getElementById(`input-${i}`).value) - 1;
             shoppingCart[i].quantity = document.getElementById(`input-${i}`).value;
             localStorage.setItem(`shoppingCart`, JSON.stringify(shoppingCart));
-            totalCartPrice(shoppingCart);
-            
+            totalCartPrice(shoppingCart);           
         });
       }
-      increment();
-      decrement();     
-    }
-  }
-  updateQuantity();
-
-
-  deleteOneItem= (cart) =>{
-    for (let i=0 ; i < cart.length ; i++){  
-        document.querySelector(`.trash${i}`).addEventListener('click', () =>{   
-            console.log('clicked on trash');
-            cart.splice(i, 1);
-            localStorage.setItem(`shoppingCart`, JSON.stringify(cart));
-            document.location.reload(true);
-        });  
-      
-  }
+    //   increment();  
 }
-  deleteOneItem(shoppingCart);
+  
+updateQuantity();
+
+
+deleteOneItem= () =>{
+let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
+for (let i=0 ; i < shoppingCart.length ; i++){  
+    document.querySelector(`.trash${i}`).addEventListener('click', () =>{   
+        shoppingCart.splice(i, 1);
+        localStorage.setItem(`shoppingCart`, JSON.stringify(shoppingCart));
+        document.location.reload(true);
+    });  
+    
+}
+}
+deleteOneItem();

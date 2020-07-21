@@ -194,11 +194,8 @@ i{
     padding:20px; 
     border-radius: 10px;
     width: 400px;
-    box-shadow: 5px 5px 10px 3px #b3b4da;
-   
-    
-}
-   
+    box-shadow: 5px 5px 10px 3px #b3b4da;   
+} 
 input{
     width: 100%;
     margin: 5px;
@@ -207,10 +204,9 @@ input{
     border-radius: 5px;
     border: 1px solid #8f8f8f;
 }
+
     
-input:invalid {
-box-shadow: 0 0 5px 1px rgb(240, 93, 93);
-}
+
     
 input:focus:invalid {
 outline: none;
@@ -221,15 +217,55 @@ outline: none;
     -webkit-appearance: none; 
     margin: 0; 
 }
-    
+input:focus {
+    outline:none;
+}
+.formInput {
+position: relative;
+} 
+.formInput .tooltiptext {
+visibility: hidden;
+width: 200px;
+background-color: #ff6565;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 5px 0;
 
-.hideErrorMessage{
-    display: none;
+/* Position the tooltip */
+position: absolute;
+z-index: 1;
+top: 30%;
+left: 105%;
 }
-.showErrorMessage{
-    display: block;
-    color: red;
+
+.tooltiptext.active {
+visibility: visible;
 }
+.formInput .tooltiptext::after {
+content: " ";
+position: absolute;
+top: 50%;
+right: 100%; /* To the left of the tooltip */
+margin-top: -5px;
+border-width: 5px;
+border-style: solid;
+border-color: transparent #ff6565 transparent transparent;
+}
+
+@media (max-width: 576px) { 
+.formInput .tooltiptext {
+    top: 110%;
+    left: -5%;
+    width:300px
+    
+}
+
+.formInput .tooltiptext::after {        
+    visibility: hidden;
+}
+}   
+/*-----------------------------------------------*/
 .cartQuantityInput{
     display: flex;
     flex-direction: row;
@@ -340,9 +376,10 @@ outline: none;
     padding-right: 20px;
         font-size:14px;
     }
-    }
+    
     .footer-cart{
         margin-top: 292px;
+    }
     }
     
 

@@ -1,5 +1,3 @@
-// let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
-let form = document.querySelector('.form');
 let firstNameInput = document.getElementById("firstName");
 let lastNameInput = document.getElementById("lastName");
 let emailInput = document.getElementById("email");
@@ -35,10 +33,9 @@ displayCartItems = () => {                            //add products to the cart
         document.querySelector('.fullCart').innerHTML='';
     }
 }
-displayCartItems();
 
 
-totalCartPrice = () =>{
+calcTotalAmount = () =>{
     let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
     let totalPrice = 0;
     for (let i=0 ; i < shoppingCart.length ; i++){
@@ -47,7 +44,7 @@ totalCartPrice = () =>{
     document.querySelector('.totalPrice').innerHTML = `<h3>Total price = ${totalPrice} $</h3>`
     sessionStorage.setItem(`totalPrice`, JSON.stringify(totalPrice));
 }
-totalCartPrice();
+
 
 //----------------------------------------------------Form validation-----------------------------------------------------//
 let inputs = document.querySelectorAll('input');        
@@ -138,7 +135,7 @@ document.getElementById('deleteStorage').onclick= (() => {
 
 
 //----------------- add and remove one item--------------//
-updateQuantity= () =>{
+updateProductQuantity= () =>{
     let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
     for (let i=0 ; i < shoppingCart.length ; i++){  
     //--increment--//
@@ -146,21 +143,17 @@ updateQuantity= () =>{
             document.getElementById(`input-${i}`).value = parseInt(document.getElementById(`input-${i}`).value) + 1;    
             shoppingCart[i].quantity = document.getElementById(`input-${i}`).value;
             localStorage.setItem(`shoppingCart`, JSON.stringify(shoppingCart));
-            totalCartPrice(shoppingCart);
+            calcTotalAmount(shoppingCart);
         });   
      //--deccrement--//
         document.querySelector(`.substract${i}`).addEventListener('click', () =>{
             document.getElementById(`input-${i}`).value= parseInt(document.getElementById(`input-${i}`).value) - 1;
             shoppingCart[i].quantity = document.getElementById(`input-${i}`).value;
             localStorage.setItem(`shoppingCart`, JSON.stringify(shoppingCart));
-            totalCartPrice(shoppingCart);           
+            calcTotalAmount(shoppingCart);           
         });
       }
-    //   increment();  
 }
-  
-updateQuantity();
-
 
 deleteOneItem= () =>{
 let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
@@ -173,4 +166,12 @@ for (let i=0 ; i < shoppingCart.length ; i++){
     
 }
 }
-deleteOneItem();
+
+setProperty = () =>{
+    displayCartItems();
+    calcTotalAmount();
+    updateProductQuantity();
+    deleteOneItem(); 
+}
+
+setProperty();

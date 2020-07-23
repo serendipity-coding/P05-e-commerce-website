@@ -155,6 +155,10 @@ i{
     display: flex;
     justify-content: center;
 }
+.quantityInputFeedback{
+    visibility: hidden;
+    color: #ff6565
+}
 
 /*------------------- CART PAGE ---------------------------*/
 .cart{

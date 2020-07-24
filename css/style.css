@@ -174,17 +174,13 @@ i{
     height: 200px;
     margin: 20px auto;
 }
+
 .table{
     max-width: 600px;
     margin-right: 20px;
 }
 
-.continueShoppingBtn{
-    border: 2px solid #5BBD24;
-    background-color: #5BBD24;
-    color: white;
-    width:110px
-}
+
 #deleteStorage{
     width: 110px
 }
@@ -220,11 +216,7 @@ input:focus:invalid {
 outline: none;
 }
     
-#streetNumber::-webkit-inner-spin-button, 
-#streetNumber::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
-}
+
 input:focus {
     outline:none;
 }
@@ -307,11 +299,21 @@ border-color: transparent #ff6565 transparent transparent;
 }
 
 
+#purchaseBtn{
+    max-width: 200px;
+    margin: 15px auto 100px auto;
+}
+.footer-cart{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
 
 /*---------------------page de confirmation------------------------*/
 .confirmation{
     margin-top: 50px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 .detailsCommande{

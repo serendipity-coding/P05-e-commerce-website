@@ -21,7 +21,7 @@ export default class Product {
                 </div>
                 <div >
                     <strong>Quantité :</strong> <input id="quantity" type ="number" value="1" min = "1" max = "10"> </input>
-                    <span class= "quantityInputFeedback" id="quantityInputFeedback">quantity must be between 1 and 10 </span> 
+                    <span class= "quantityInputFeedback" id="quantityInputFeedback" oninput="myFunction()">quantity must be between 1 and 10 </span> 
                 </div>
             </div>  
         </div>

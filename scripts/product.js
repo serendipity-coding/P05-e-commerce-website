@@ -16,7 +16,7 @@ getOneProduct()
             let quantityInput = document.getElementById('quantity');
             quantityInput.addEventListener('input', function()
             {
-                if(quantityInput.value <= 0 ){
+                if(quantityInput.value <= 0 || quantityInput.value > 10 ){
                     document.getElementById('quantityInputFeedback').style.visibility= "visible";  
                     document.getElementById('addToCartBtn').disabled = true;          
                 }else{

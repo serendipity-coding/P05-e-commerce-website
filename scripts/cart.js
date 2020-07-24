@@ -36,6 +36,9 @@ displayCartItems = () => {                            //add products to the cart
 
 
 calcTotalAmount = () =>{
+    if (!localStorage.getItem('shoppingCart')){
+        return 
+    }
     let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
     let totalPrice = 0;
     for (let i=0 ; i < shoppingCart.length ; i++){
@@ -92,7 +95,9 @@ function postOrderRequest(order) {
         if (this.readyState == XMLHttpRequest.DONE) {
           let confirmation = JSON.parse(this.responseText);
           sessionStorage.setItem('order', JSON.stringify(confirmation));
+          window.location.href= 'confirmation.html';
         };
+        
       };
       request.open("post", "http://localhost:3000/api/cameras/order");
       request.setRequestHeader("Content-Type", "application/json");
@@ -122,11 +127,12 @@ function validatePurchase() {
     };
     console.log('objt',objt);
     postOrderRequest(objt);
+    
     }; 
  
-document.querySelector('.purchaseButton').onclick = (()=>{   //form must be validated to confirm the purchase   
-    validatePurchase(); 
-});
+
+  
+
 
 document.getElementById('deleteStorage').onclick= (() => {
     localStorage.clear();
@@ -136,6 +142,9 @@ document.getElementById('deleteStorage').onclick= (() => {
 
 //----------------- add and remove one item--------------//
 updateProductQuantity= () =>{
+    if (!localStorage.getItem('shoppingCart')){
+        return 
+    }
     let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
     for (let i=0 ; i < shoppingCart.length ; i++){  
     //--increment--//
@@ -156,6 +165,9 @@ updateProductQuantity= () =>{
 }
 
 deleteOneItem= () =>{
+    if (!localStorage.getItem('shoppingCart')){
+        return 
+    }
 let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
 for (let i=0 ; i < shoppingCart.length ; i++){  
     document.querySelector(`.trash${i}`).addEventListener('click', () =>{   

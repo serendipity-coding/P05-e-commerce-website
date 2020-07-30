@@ -364,8 +364,11 @@ border-color: transparent #ff6565 transparent transparent;
     }
     /*-----------Cart form-----*/
     form{
-        width: 300px;      
+        width: 300px;   
+        margin: 0;
+        padding: 0;   
     }
+
     label{
         font-size: 14px;   
     }
@@ -379,8 +382,19 @@ border-color: transparent #ff6565 transparent transparent;
         flex-direction: column !important;
     
     }
+    .cartQuantityInput i{
+        margin-left: 10px;
+    }
     .deleteAllBtn{
         margin: auto;
+    }
+    .form{
+        margin: 0;
+        padding: 0;
+        max-width: auto;
+    }
+    .orderForm{
+        max-width: auto;
     }
     .numberArticleCart{
     padding-right: 20px;
@@ -389,6 +403,19 @@ border-color: transparent #ff6565 transparent transparent;
     
     .footer-cart{
         margin-top: 292px;
+    }
+    .orderForm{
+        max-width: auto;
+        margin: auto;
+        padding: auto; 
+        width: auto;
+    } 
+    input{
+        width: auto;
+        margin: auto;
+        height: 30px;
+        padding: auto;
+       
     }
     }
     

@@ -26,7 +26,8 @@ getOneProduct()
             });            
             document.getElementById('addToCartBtn').addEventListener('click', ()=> {
                 newProduct.addProductToCart(data);            
-            });            
+            });   
+                 
         }).catch( err => console.log(err));
 
 
